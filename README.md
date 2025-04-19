@@ -1,7 +1,7 @@
 # AI Chat App - Backend
 
 Node.js/Express server for the AI chat application.
-![App Screenshot](assets/ResponseOutput.png)
+![App Screenshot](assets/ResponseOutput.PNG)
 
 ## Features
 - REST API endpoint for chat
