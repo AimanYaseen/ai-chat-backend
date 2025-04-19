@@ -1,30 +1,32 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3001;
 
- //Allow requests from all possible clients
-app.use(cors({
+// Middleware
+/*app.use(cors({
   origin: [
     'http://localhost:8081',
-    'http://192.168.0.106:8081',  //Your previous IP
-    'http://192.168.0.100:8081',  //Your current IP
-    'exp://192.168.0.100:8081'    //For Expo Go app
+    'exp://192.168.0.100:8081', // Your Expo URL
+    'https://ai-chat-frontend.vercel.app' // If hosting frontend later
   ]
-}));
-
+}));*/
+app.use(cors()); // Allow all origins temporarily
 app.use(express.json());
 
- //Chat endpoint
-app.post('chat', (req, res) => {
-  const userMessage = req.body.message;
-  const aiResponse = { reply: "Hi! I'm your AI assistant." };
-  setTimeout(() => res.json(aiResponse), 1000);
-});
+// Chat endpoint
+app.post('/chat', (req, res) => {
+    try {
+      const userMessage = req.body.message;
+      const aiResponse = { reply: "Hi! I'm your AI assistant." };
+      setTimeout(() => res.json(aiResponse), 1000);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Server error" });
+    }
+  });
 
- //Start server on ALL network interfaces
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Server running on
-  - http://localhost:${port}
-  - http://192.168.0.100:${port}`);
+// Start server (Vercel provides PORT)
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
