@@ -1,31 +1,25 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
 const app = express();
 
 // Middleware
-/*app.use(cors({
+app.use(cors({
   origin: [
     'http://localhost:8081',
-    'exp://192.168.0.100:8081', // Your Expo URL
-    'https://ai-chat-frontend.vercel.app' // If hosting frontend later
+    'exp://192.168.0.100:8081',
+    'https://ai-chat-frontend.vercel.app'
   ]
-}));*/
-app.use(cors()); // Allow all origins temporarily
+}));
 app.use(express.json());
 
 // Chat endpoint
 app.post('/chat', (req, res) => {
-    try {
-      const userMessage = req.body.message;
-      const aiResponse = { reply: "Hi! I'm your AI assistant." };
-      setTimeout(() => res.json(aiResponse), 1000);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Server error" });
-    }
-  });
+  const userMessage = req.body.message;
+  const aiResponse = { reply: "Hi! I'm your AI assistant." };
+  setTimeout(() => res.json(aiResponse), 1000);
+});
 
-// Start server (Vercel provides PORT)
+// Start server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
